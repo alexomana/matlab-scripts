@@ -1,0 +1,26 @@
+﻿%%Waveform and Amplitude Spectrum
+%% Suppose we sample a signal during 4 seconds, at a sampling rate of 0.01:
+close all; 
+clear all;
+clc;
+dt = 1/100; % sampling rate
+et = 4; % end of the interval
+t = 0:dt:et; % sampling range
+y = 3*sin(4*2*pi*t) + 5*sin(2*2*pi*t); % sample the signal
+%A natural plot is that of amplitude versus time:
+subplot(2,1,1); % first of two plots
+plot(t,y); grid on % plot with grid
+axis([0 et -8 8]); % adjust scaling
+xlabel('Time (s)'); % time expressed in seconds
+ylabel('Amplitude'); % amplitude as function of time
+%With the Fourier Transform we can visualize what characterizes this signal the most.
+%From the Fourier transform we compute the amplitude spectrum:
+Y = fft(y); % compute Fourier transform
+n = size(y,2)/2; % 2nd half are complex conjugates
+amp_spec = abs(Y)/n; % absolute value and normalize
+%%%To visualize the amplitude spectrum, we execute the following commands
+subplot(2,1,2); % second of two plots
+freq = (0:79)/(2*n*dt); % abscissa viewing window
+plot(freq,amp_spec(1:80)); grid on % plot amplitude spectrum
+xlabel('Frequency (Hz)'); % 1 Herz = number of cycles/second
+ylabel('Amplitude'); % amplitude as function of frequency

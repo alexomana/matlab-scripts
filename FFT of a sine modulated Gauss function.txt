@@ -1,0 +1,34 @@
+﻿clc;
+clear all;
+close all;
+%----------------------------------------------------------------------------------------
+%    Program  : FFT.m
+%    Purpose  : To calculate FFT of a sine modulated Gauss function
+% ----------------------------------------------------------------------------------------
+% Get the input parameters
+
+
+fr=3200; %Modulation frequency [Hz]
+dt=5; %time step
+N=1024;
+    w=2*pi*fr;
+tic
+% Build the input time series
+    for k=1:N
+         X(k)=sin(w*dt*k)*exp(-(dt*N/(10*dt*k))^2);
+    end
+% Apply the FFT 
+    X2=fft(X,N);
+    X2=fftshift(X2);                  % swaps the left and right halves
+    X2=abs(X2);
+% Prepare the frequency samples
+    fmax=1/dt;    df=1/(N*dt);   
+    for k=1:N
+          F(k)=-fmax/2+(k-1)*df;
+    end
+% Plot the output
+    plot(F,X2);
+    title('The FFT of a Time Signal')
+    xlabel('Frequency [Hz]');  ylabel('Amplitude')
+     toc
+%------------------------------- End of FFT.m ---------------------------------------

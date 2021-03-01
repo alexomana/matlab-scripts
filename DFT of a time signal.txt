@@ -1,0 +1,37 @@
+﻿close all; 
+clear all;
+clc;
+%-------------------------------------------------------------------------------------
+%    Program  : DFT.m
+%     Purpose  : To calculate DFT of a signal
+% ------------------------------------------------------------------------------------
+
+
+%  Get the input parameters
+am=4;
+fm=100;
+fs=32*fm;
+t=0:1/fs:1;
+signal=am*sin(2*pi*fm*t);
+N=3201;
+tic
+
+
+signal=[signal zeros(1,N-length(signal))]; %% embed with zeros to reach the size N
+sigF=zeros(1,N); %%Initialize the array with zeros to reset summing counters
+
+
+%  Apply the DFT with M points
+for k=0:N-1
+  for n=0:N-1 
+      sigF(k+1)=sigF(k+1)+signal(n+1)*exp(-1i*2*pi*k*n/N);
+  end
+end
+siF=fftshift(abs(sigF));
+fh=linspace(-fs/2,fs/2,length(siF));
+% Plot the output
+plot(fh,siF)
+  title('The DFT Sinusoid')
+     xlabel('Frequency [Hz]');   ylabel('Amplitude')
+     toc
+%------------------------------ End of DFT.m ------------------------------------
